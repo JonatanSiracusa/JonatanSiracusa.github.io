@@ -1,0 +1,44 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Portfolio profesional y repositorio de proyectos de finanzas, data science, análisis de datos, machine learning aplicado a procesos de negocio y finanzas cuantitativas">
+  <meta name="keywords" content="finanzas, data science, machine learning, Python, finanzas cuantitativas, analisis de datos, mercados, stock market">
+  <meta name="author" content="Jonatan Siracusa">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Finances and Data Science">
+  <meta property="og:description" content="Proyectos de finanzas, data science, análisis de datos, machine learning aplicado a procesos de negocio y finanzas cuantitativas.">
+  <!--<meta property="og:image" content="https://username.github.io/imagen-destacada.png">-->
+  <meta property="og:url" content="https://jonatansiracusa.github.io">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Finances and Data Science">
+  <meta name="twitter:description" content="Proyectos de finanzas, data science, análisis de datos, machine learning aplicado a procesos de negocio y finanzas cuantitativas.">
+  <!-- <meta name="twitter:image" content="https://username.github.io/imagen-destacada.png"> -->
+  <meta name="twitter:url" content="https://username.github.io">
+
+
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
+  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
+
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+  {% feed_meta %}
+  {% seo %}
+
+  <style>
+  {% capture include_to_scssify %}
+    {% include main.scss %}
+  {% endcapture %}
+  {{ include_to_scssify | scssify }}
+  </style>
+</head>
