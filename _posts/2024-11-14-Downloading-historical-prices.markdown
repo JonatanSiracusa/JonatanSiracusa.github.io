@@ -258,10 +258,11 @@ print(f'\nExecution time: {round(execution_time, 2)} seconds.')
 En resumen, este **enfoque modular** nos permite utilizar el programa para **descargar series de precios de todo tipo**, de un **intervalo de tiempo determinado** y de **todos los activos que deseemos**.
 
 La mayor ventaja reside en que es **ESCALABLE** y, por lo tanto, **podemos extenderlo a la cantidad de activos, tipos de precios e intervalos que necesitemos**.
+<br><br>
 
-Es posible **acceder al notebook y ejecutarlo** desde *Google Colab*, así como también **descargarlo desde el repositorio de *GitHub*** haciendo
-    ***<a href="https://github.com/JonatanSiracusa/downloading-historical-prices.git" target="_blank" title="Hace click para ir al repositorio"><u>click aquí</u>.
-    </a>***
+Es posible **acceder y ejecutar el notebook** desde ***Google Colab*** haciendo click en ***<a href="https://colab.research.google.com/github/JonatanSiracusa/downloading-historical-prices/blob/main/downloading_hist_prices.ipynb" target="_blank" title="Hace click para ir a Google Colab"><u>Quiero ejecutar este notebook</u></a>***, así como también **descargarlo desde el repositorio de *GitHub*** haciendo click en ***<a href="https://github.com/JonatanSiracusa/downloading-historical-prices.git" target="_blank" title="Hace click para ir al repositorio"><u>Quiero este código</u></a>***.
+
+Asimismo, podes leer este artículo en ***<a href="https://jonatansiracusa.medium.com/how-to-build-a-fully-automated-financial-data-downloading-pipeline-with-python-5e75686c3ba9" target="_blank" title="Hace click para ir a la publicación"><u>Medium.com</u></a>***.
 <br><br>
 
 
