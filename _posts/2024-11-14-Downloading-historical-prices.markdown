@@ -79,9 +79,20 @@ Luego, completamos los nombres de los archivos que se descargaran. Para esto, de
 
 Y, por ultimo, completamos el nombre del segundo descargable por medio de la variable `OUTPUT_NAME_2`, que contiene los cierres ajustados (*Adj Close*), los rendimientos simples y logarítimicos, y la volatilidad de las ultimas 40 ruedas anualizada. Todo calculado en base a los *Adj. Close*.
 
-<div style="text-align: center;">
-    <img src="/images/Image 001.jpg" alt="Parameters" width="700">
-</div>
+
+
+{% highlight python %}
+OUTPUT_NAME_1 = 'historical-Adj_prices-byma'
+OUTPUT_NAME_2 = 'historical-Adj_prices_plus-byma'
+EXPORT_DATA = True
+
+TICKERS = ['Index', 'ALUA', 'BBAR', 'BMA', 'BYMA', 'CEPU', 'COME', 'CRES', 'CVH', 'EDN', 'GGAL', 'LOMA', 'MIRG', 'PAMP', 'SUPV', 'TECO2', 'TGNO4', 'TGSU2', 'TRAN', 'TXAR', 'VALO', 'YPFD']
+
+TICKERS_YF = ['^MERV', 'ALUA.BA', 'BBAR.BA', 'BMA.BA', 'BYMA.BA', 'CEPU.BA', 'COME.BA', 'CRES.BA', 'CVH.BA', 'EDN.BA', 'GGAL.BA', 'LOMA.BA', 'MIRG.BA', 'PAMP.BA', 'SUPV.BA', 'TECO2.BA', 'TGNO4.BA', 'TGSU2.BA', 'TRAN.BA', 'TXAR.BA', 'VALO.BA', 'YPFD.BA']
+
+START_DATE = '2000-01-01'
+END_DATE = ''
+{% endhighlight %}
 <br>
 
 
@@ -91,9 +102,33 @@ En este caso, estamos utilizando Yahoo Finance, a modo de ejemplo genérico. Aun
 
 Para modificar la fuente de datos, solo debemos adaptar la funcion `descargar_datos_yf()`, que recibe como argumentos los tickers en el formato que la fuente de datos requiere, la fecha de inicio y la fecha de finalización.
 
-<div style="text-align: center;">
-    <img src="/images/Image 002.jpg" alt="Download Function" width="700">
-</div>
+{% highlight python %}
+def descargar_datos_yf(tickers, start_date=None, end_date=None, delay=1):
+    if start_date is None:
+        start_date = dt.datetime(2015, 1, 1)
+    if end_date is None:
+        end_date = dt.datetime.now()
+
+    data_dict = {}
+    for ticker in tickers:
+        try:
+            df = yf.download(ticker, start=start_date, end=end_date, auto_adjust=False, progress=False)
+            if not df.empty:
+                data_dict[ticker] = df
+                print(f'Descargado: {ticker}')
+            else:
+                print(f'Sin datos: {ticker}')
+        except Exception as e:
+            print(f'Error descargando {ticker}: {e}')
+        time.sleep(delay)
+	
+    if data_dict:
+        df = pd.concat(data_dict, axis=1)
+    else:
+        df = pd.DataFrame()
+
+    return df
+{% endhighlight %}
 
 
 Al **modularizar** la descarga de los datos, **facilitamos el cambio de fuente de datos** cuando lo necesitemos.
@@ -106,9 +141,21 @@ Ahora es cuando el debido orden de los tickers en `TICKERS` toma importancia, ya
 
 Seleccionaremos solo los precios de cierre ajustados (*Adj Close*), filtrandolos del resto de los tipos de precios y eliminando las columnas MultiIndex del DataFrame. De esta manera, generamos un dataset con fechas como indice y columnas solo con los nombres de los activos.
 
-<div style="text-align: center;">
-    <img src="/images/Image 003.jpg" alt="Data Cleaning" width="500">
-</div>
+{% highlight python %}
+# Filtro Adj Close de todos los tickers
+prices = prices.xs('Adj Close', axis=1, level=1)
+
+# Elimino multiindexes q no necesite
+prices = prices.droplevel('Ticker', axis=1)
+
+# Agregamos un indice "n" en la columna 1
+prices.insert(0, 'n', 1, allow_duplicates=False)
+prices['n'] = prices['n'].cumsum()
+
+# Reemplazamos los missing values y negativos por 0
+prices.fillna(0, inplace=True)
+prices[prices < 0] = 0
+{% endhighlight %}
 
 Paso siguiente, agregamos un indice numerico incremental en la primer columna, en caso de que se necesite en el futuro, y reemplazamos todos los valores negativos o vacíos por cero.
 
@@ -126,9 +173,40 @@ En este caso, agregamos tres columnas a la derecha de cada activo. En las respec
 2.  Rendimiento logarítmico, respecto de la rueda anterior.
 3.  Volatilidad (desvío estándar) anualizada, respecto de las ultimas 40 ruedas.
 
-<div style="text-align: center;">
-    <img src="/images/Image 004.jpg" alt="Processing data" width="700">
-</div>
+
+{% highlight python %}
+# Insertamos los calculos de rendimientos y volatilidad
+for i in range(len(tickers)):
+	
+	# Seleccionamos el ticker
+	asset = tickers[i]
+
+	# Buscamos la posicion de la columna del ticker
+	pos = prices.columns.get_loc(asset)
+
+	# Asignamos el nombre a la nueva col
+	col_sr = ticker_simple_return()[i]
+	col_lr = ticker_log_return()[i]
+	col_v40 = ticker_volat()[i]
+
+	# Insertamos una columna luego del ticker, con el nombre correspondiente al calculo y el ticker
+	prices.insert(pos+1, col_sr, np.nan)
+	prices.insert(pos+2, col_lr, np.nan)
+	prices.insert(pos+3, col_v40, np.nan)
+
+	# Calculamos los Simple Return diarios
+	prices[col_sr] = (prices[asset] / prices[asset].shift(1)) - 1
+
+	# Calculamos los Log Return diarios
+	#prices[col_lr] = np.log(prices[asset] / prices[asset].shift(1))
+	prices[col_lr] = np.log(prices[asset]).diff()
+
+	# Calculo el Desvio St de las ultimas 40 ruedas anualizado
+	prices[col_v40] = (prices[col_lr].rolling(window=40).std()) * np.sqrt(MARKET_DAYS_YEAR)
+
+prices.fillna(0, inplace=True)
+{% endhighlight %}
+
 
 Como es de buena práctica, realizamos otro Checkpoint a modo de backup.
 <br><br>
@@ -142,9 +220,36 @@ Como ya se comento, el primer descargable contiene los **precios de cierre ajust
 
 El segundo descargable, contiene **precios de cierre ajustado, rendimientos y volatilidad**, por lo que recibe el dataset que se guardo en el segundo Checkpoint.
 
-<div style="text-align: center;">
-    <img src="/images/Image 005.jpg" alt="Processing data" width="600">
-</div>
+{% highlight python %}
+if EXPORT_DATA:
+	# Guardamos en un .csv
+	prices_v1.to_csv('./' + OUTPUT_NAME_1 + '.csv')
+
+	# Guardamos en un .xlsx
+	with pd.ExcelWriter('./' + OUTPUT_NAME_1 + '.xlsx') as writer:
+		prices_v1.to_excel(writer, sheet_name='Sheet1', index=True)
+
+
+	# Guardamos en un .csv
+	prices_v2.to_csv('./' + OUTPUT_NAME_2 + '.csv')
+
+	# Guardamos en un .xlsx
+	with pd.ExcelWriter('./' + OUTPUT_NAME_2 + '.xlsx') as writer:
+		prices_v2.to_excel(writer, sheet_name='Sheet1', index=True)
+
+
+	ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	print(f'Data has already been exported. Date: {ahora}.')
+
+else:
+	ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	print(f'No data has been exported. Date: {ahora}.')
+
+
+end_time = time.time()
+execution_time = end_time - star_time
+print(f'\nExecution time: {round(execution_time, 2)} seconds.')
+{% endhighlight %}
 <br>
 
 
