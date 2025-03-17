@@ -1,0 +1,63 @@
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FHW4QWMVHX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FHW4QWMVHX');
+  </script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Sitio web profesional dedicado a proyectos de finanzas, data science, análisis de datos, machine learning aplicado a procesos de negocio, finanzas cuantitativas, notebooks de Python">
+  <meta name="keywords" content="finanzas, datos, ciencia de datos, analisis de datos, data science, data scientist, business scientist, data analytics, machine learning, Python, finanzas cuantitativas, mercados, stock market, github, github page, web, website, sitio web, page,Jonatan Siracusa, Jonatán Siracusa, Angel Jonatán Siracusa, Angel Jonatan Siracusa, Jona Siracusa, @JonaSiracusa, @jonatansiracusa, JonaSiraQ, @JonaSiraQ, a.jonatan.siracusa">
+  <meta name="author" content="Jonatan Siracusa, Jonatán Siracusa, Angel Jonatán Siracusa, Angel Jonatan Siracusa, Jona Siracusa, @JonaSiracusa, @jonatansiracusa, JonaSiraQ, @JonaSiraQ, a.jonatan.siracusa">
+  <meta name="creator" content="Jonatan Siracusa">
+  <meta name="creator" content="Jonatán Siracusa">
+  <meta name="creator" content="Angel Jonatán Siracusa">
+  <meta name="creator" content="Angel Jonatan Siracusa">
+  <meta name="creator" content="Jona Siracusa">
+  <meta name="creator" content="@JonaSiracusa">
+  <meta name="creator" content="@jonatansiracusa">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-video-preview:-1">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ciencia de Datos y Finanzas">
+  <meta property="og:description" content="Explora proyectos de data science y finanzas, análisis de datos, machine learning aplicado a procesos de negocio y finanzas cuantitativas.">
+  <!--<meta property="og:image" content="https://username.github.io/imagen-destacada.png">-->
+  <meta property="og:url" content="https://jonatansiracusa.github.io">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Proyectos de Finanzas y Data Science">
+  <meta name="twitter:description" content="Proyectos de finanzas, data science, análisis de datos, machine learning aplicado a procesos de negocio y finanzas cuantitativas.">
+  <!-- <meta name="twitter:image" content="https://username.github.io/imagen-destacada.png"> -->
+  <meta name="twitter:url" content="https://jonatansiracusa.github.io>
+
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}</title>
+  <meta name='description' content='{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}'>
+
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- Ionicons -->
+  <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+
+  {% feed_meta %}
+  {% seo %}
+
+  <style>
+  {% capture include_to_scssify %}
+    {% include main.scss %}
+  {% endcapture %}
+  {{ include_to_scssify | scssify }}
+  </style>
+</head>

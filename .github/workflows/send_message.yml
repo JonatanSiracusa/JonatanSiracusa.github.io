@@ -1,0 +1,50 @@
+name: Save Contact Message
+
+on:
+  workflow_dispatch: 
+  repository_dispatch:
+    types: [contact_form_submission]
+
+jobs:
+  save_message:
+    runs-on: ubuntu-latest
+    env:
+      PUB_PAT: ${{ secrets.PUB_PAT }}
+    steps:
+      - name: Set environment variable
+        run: echo "PUB_PAT=${{ secrets.PUB_PAT }}" >> $GITHUB_ENV
+
+      - name: Checkout private repo
+        uses: actions/checkout@v4
+        with:
+          # PUB_PAT: ${{ env.PUB_PAT }}
+          repository: "${{ secrets.PRIVATE_USER }}/${{ secrets.PRIVATE_REPO }}"
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          ref: main
+          
+      # - name: Debug Payload
+      #   run: echo '${{ toJson(github.event.client_payload) }}'
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+
+      - name: Save message to repo
+        run: |
+          # echo "${{ secrets.PUB_PAT }}" > ~/.PUB_PAT
+
+          # mkdir -p messages
+          NAME="${{ github.event.client_payload.name }}"
+          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")          
+          FILE_NAME="messages/message_$TIMESTAMP_$NAME.txt"          
+
+          # Guardamos los datos del mensaje en un archivo TXT
+          echo "Name: ${{ github.event.client_payload.name }}" > "$FILE_NAME"
+          echo "Email: ${{ github.event.client_payload.email }}" >> "$FILE_NAME"
+          echo "Message: ${{ github.event.client_payload.message }}" >> "$FILE_NAME"
+          
+          git add messages/message_$TIMESTAMP_$NAME.txt
+          git commit -m "New message received - $TIMESTAMP"
+          git push origin main

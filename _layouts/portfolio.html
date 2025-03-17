@@ -1,0 +1,38 @@
+---
+layout: default
+# image: foto_cv_5.jpg
+---
+
+<div class="container">
+	<div class="page-title-box">
+		<div class="row">
+			<div class="col col-10 push-2 col-11 push-t-1 col-m-12 push-m-0">
+				<h1 class="page-title">{{ page.title | escape }}</h1>
+			</div>
+		</div>
+	</div>
+
+	{% if page.image %}
+	<div class="page__head">
+		<div class="page-image" style="background-image: url({{site.baseurl}}/images/{{page.image}})"></div>
+	</div>
+	{% endif %}
+
+    {{content}}
+
+</div>
+
+<div class="container">
+	<div class="row">
+    
+	{% if site.posts.size > 0 %} 
+        
+        {% assign filtered_posts = site.posts %}
+        {% for post in filtered_posts limit:site.mpaginate %}
+			{% include article-content.html %}
+		{% endfor %}
+
+	{% endif %}
+	</div>
+</div>
+{% include pagination.html %}

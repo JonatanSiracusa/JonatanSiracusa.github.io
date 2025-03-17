@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jonatansiracusa.github.io/sitemap.xml

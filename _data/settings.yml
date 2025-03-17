@@ -1,0 +1,58 @@
+#-------------------------------
+# General Site Settings
+title: Jonatan Siracusa
+# logo: logo.svg # You can add own logo.
+description: Ciencia de Datos y Finanzas
+
+
+#-------------------------------
+# Author Settings
+author:
+  name: Jonatan Siracusa
+  image: foto_cv_5.jpg   # 1280 x 748 
+  say-hello: <strong>Ciencia de Datos y Finanzas</strong>
+  bio: Apoyado en mi experiencia y formación en Ciencia de Datos y Administración de Empresas, contribuyo a <b>crear valor agregado</b> e innovar <b>combinando las mejores técnicas y herramientas de Ciencia de Datos</b>, <b>Algoritmos de Inteligencia Artificial</b>, <b>Procesos de Negocio</b> y <b>Finanzas</b>.
+    <br><br>
+    Me comprometo de forma perseverante en la <b>resolución</b> de problemas, manteniendo el <b>foco en las necesidades</b> de los distintos <strong>business partners</strong>, <strong>usuarios</strong> y <strong>clientes</strong>. 
+    <br><br>
+    Trabajo en proyectos en relación de dependencia, en modalidad <i>contractor</i> e independientes.
+    
+      #Designs, talks, and writes about <strong>web</strong>, <strong>ethics</strong>, <strong>privacy</strong>, and dev. I share design tutorials, free resources and inspiration. Loves <a href="#">music</a> & riding his bicycle.<br><br>
+
+
+
+#-------------------------------
+# Contact links
+linkedin: https://linkedin.com/in/ajsiracusa
+twitter: https://x.com/jonasiracusa # Add your Twitter handle
+medium: https://jonatansiracusa.medium.com
+website: https://jonatansiracusa.github.io
+#instagram: https://instagram.com/ # Add your Instagram handle
+
+
+
+# facebook: https://facebook.com/ # Add your Facebook handle
+# dribbble: https://dribbble.com/ # Add your Dribbble handle
+# pinterest: https://pinterest.com/ # Add your Pinterest handle
+
+
+
+#-------------------------------
+# Comment Section (Disqus)
+disqus-identifier: mr-brown # add your shortname for Disqus Comment. For example mr-brown
+
+
+#-------------------------------
+# Instagram Feed
+instafeed: # To enable the instafeed, use the value true. To turn off use the value false.
+instagram-profile: # Add instagram username
+
+
+#-------------------------------
+# Google Analytics
+google-analytics: G-FHW4QWMVHX, GT-TQVQBP3S
+
+
+#-------------------------------
+# Newsletter
+mailchimp: # Add your MailChimp form identifier. For example - blogenjoyfreedom.us16.list-manage.com/subscribe/post?u=cd56155d76ddeeb4c0bc4d080&amp;id=7a526cd13e
